@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>this page</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>  
+body { padding-top: 20px; }
+#myCarousel .nav a small {
+    display:block;
+}
+#myCarousel .nav {
+	background:#eee;
+}
+#myCarousel .nav a {
+    border-radius:0px;
+}
+</style>
+<script>
+$(document).ready( function() {
+    $('#myCarousel').carousel({
+		interval:   4000
+	});
+	
+	var clickEvent = false;
+	$('#myCarousel').on('click', '.nav a', function() {
+			clickEvent = true;
+			$('.nav li').removeClass('active');
+			$(this).parent().addClass('active');		
+	}).on('slid.bs.carousel', function(e) {
+		if(!clickEvent) {
+			var count = $('.nav').children().length -1;
+			var current = $('.nav li.active');
+			current.removeClass('active').next().addClass('active');
+			var id = parseInt(current.data('slide-to'));
+			if(count == id) {
+				$('.nav li').first().addClass('active');	
+			}
+		}
+		clickEvent = false;
+	});
+});
+</script>
+</head>
+<body> 
+<div class="container-fluid">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+      
+        <div class="item active">
+        <img src="images/pic1.jpg">
+           <div class="carousel-caption">
+           </div>
+        </div><!-- End Item -->
+ 
+         <div class="item">
+          <img src="images/pic2.jpg">
+           <div class="carousel-caption">
+            </div>
+        </div><!-- End Item -->
+        
+        <div class="item">
+          <img src="images/pic3.jpg">
+           <div class="carousel-caption">
+           </div>
+        </div><!-- End Item -->
+        
+        <div class="item">
+          <img src="images/pic4.jpg">
+           <div class="carousel-caption">
+          </div>
+        </div><!-- End Item -->
+                
+      </div><!-- End Carousel Inner -->
+
+
+    	<ul class="nav nav-pills nav-justified">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"><a href="#">About<small>Lorem ipsum dolor sit</small></a></li>
+          <li data-target="#myCarousel" data-slide-to="1"><a href="#">Projects<small>Lorem ipsum dolor sit</small></a></li>
+          <li data-target="#myCarousel" data-slide-to="2"><a href="#">Portfolio<small>Lorem ipsum dolor sit</small></a></li>
+          <li data-target="#myCarousel" data-slide-to="3"><a href="#">Services<small>Lorem ipsum dolor sit</small></a></li>
+        </ul>
+
+
+    </div><!-- End Carousel -->
+</div>
+	<%@page import="java.util.ArrayList,beans.ProductView,beans.Customer" %>
+			
+
+	 <%	
+	ArrayList<Customer> list2=(ArrayList)request.getAttribute("LIST2");
+	if(!list2.isEmpty())
+	{
+		for(Customer c:list2)
+		{
+			int x=c.getCquant();
+%>
+	<div class="cartvalue">
+<!-- 	<a href="customerHome.jsp"><font style="background-color:yellow;" size="5"></font></a> -->
+<strong><%String xx=(String)session.getAttribute("cid"); 
+		if(xx!=null)
+		{
+			%>
+			<font color="red" size="5"><%=session.getAttribute("cid")%></font>
+			<%
+		}
+%></strong>
+	<div class="row">
+	<div class="col-sm-13">
+	<div class="alert alert-info">
+		<font color="black">
+			 Total products:<font color="red"><%=x%><br/></font>Cart value:<font color="red"><%=c.getSumamount()%>Rs.</font> <br/>
+			 	 
+			 	 <%if(x>0 && session.getAttribute("cid")!=null)
+			 		 { %>
+			 		  <a href="ViewCartController"> view cart</a>&nbsp;
+			 	  <a href="CheckoutController?cid=<%=session.getAttribute("cid")%>">checkout</a>	 	  
+			 	 <% }else
+			 		 {
+			 		 %>
+			 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="ViewCartIpaddress">cart</a>&nbsp;<br/>
+			 		<font color="red">login to checkout</font>
+			 		<% }%>
+		 </font>
+		 </div>
+		 </div>
+		</div>
+		</div>		
+<%
+		}
+	}
+	else{
+		%>
+			<font color="red">nothing in cart</font>
+		<%
+	}	 
+%>
+
+
+  
+</body>
+</html>
